@@ -1,35 +1,46 @@
 import os
-import re
 
-def convert_vtt_to_txt():
-    main_folder = 'captions'  # Main folder containing section folders with .vtt files
+def convert_vtt_to_txt(vtt_content):
+    # Remove timestamps and formatting from VTT content
+    lines = vtt_content.splitlines()
+    txt_lines = []
+    for line in lines:
+        # Only add the line if it's not empty and does not contain a timestamp
+        if line and not line.startswith("NOTE") and not line[0].isdigit():
+            txt_lines.append(line)
+    return "\n".join(txt_lines)
 
-    # Check if the main folder exists
-    if not os.path.exists(main_folder):
-        print(f"Folder '{main_folder}' does not exist. Please create it and add your section folders with .vtt files.")
-        return
+def process_vtt_files(main_folder):
+    # Create a new folder for all txt files
+    captions_txt_folder = os.path.join(main_folder, "captions - txt")
+    os.makedirs(captions_txt_folder, exist_ok=True)
 
-    # Iterate through each subfolder (section) in the main folder
-    for root, dirs, files in os.walk(main_folder):
-        for filename in files:
-            if filename.endswith('.vtt'):
-                vtt_file_path = os.path.join(root, filename)
-                # Create the output .txt file path in the same section folder
-                txt_file_path = os.path.join(root, filename.replace('.vtt', '.txt'))
+    for section in os.listdir(main_folder):
+        section_path = os.path.join(main_folder, section)
 
-                with open(vtt_file_path, 'r', encoding='utf-8') as vtt_file:
-                    # Read the contents and process the text
-                    content = vtt_file.read()
-                    # Remove VTT formatting (timestamps and cues)
-                    text_only = re.sub(r'(?<=\n)\d{1,2}:\d{2}:\d{2}\.\d{3} --> \d{1,2}:\d{2}:\d{2}\.\d{3}\n?', '', content)
-                    text_only = re.sub(r'\n{2,}', '\n', text_only)  # Remove extra newlines
-                    text_only = text_only.strip()  # Remove leading/trailing whitespace
+        # Check if it's a directory
+        if os.path.isdir(section_path):
+            # Create a "section XX - txt" folder inside the captions - txt folder
+            txt_folder_name = f"{section} - txt"
+            txt_folder = os.path.join(captions_txt_folder, txt_folder_name)
+            os.makedirs(txt_folder, exist_ok=True)
 
-                # Write the cleaned text to a .txt file in the same section folder
-                with open(txt_file_path, 'w', encoding='utf-8') as txt_file:
-                    txt_file.write(text_only)
+            for file in os.listdir(section_path):
+                if file.endswith('.vtt'):
+                    vtt_file_path = os.path.join(section_path, file)
+                    with open(vtt_file_path, 'r', encoding='utf-8') as vtt_file:
+                        vtt_content = vtt_file.read()
 
-    print(f"Conversion complete! All .txt files are saved in their respective section folders within: {main_folder}")
+                    # Convert VTT content to TXT
+                    txt_content = convert_vtt_to_txt(vtt_content)
+                    txt_file_name = os.path.splitext(file)[0] + '.txt'
+                    txt_file_path = os.path.join(txt_folder, txt_file_name)
 
-# Run the function
-convert_vtt_to_txt()
+                    # Save the TXT file
+                    with open(txt_file_path, 'w', encoding='utf-8') as txt_file:
+                        txt_file.write(txt_content)
+                    print(f'Converted {vtt_file_path} to {txt_file_path}')
+
+if __name__ == '__main__':
+    main_folder = 'captions'  # Change this to your main folder path if needed
+    process_vtt_files(main_folder)
