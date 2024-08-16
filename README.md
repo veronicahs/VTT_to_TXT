@@ -30,13 +30,21 @@ captions/
    ```bash
    git clone https://github.com/yourusername/vtt-to-txt-converter.git
    cd vtt-to-txt-converter
-   Create a folder named captions in the project directory.
 
-2. Within the captions folder, create section folders (e.g., section 1, section 2, section 3) and place your .vtt files inside these folders.
+2. Create a folder named captions in the project directory.
 
-3. Open the terminal and run the script:
+3. Within the captions folder, create section folders (e.g., section 1, section 2, section 3) and place your .vtt files inside these folders.
 
+4. Open the terminal and run the script:
+
+   ```bash
    python convert_vtt_to_txt.py
 
-4. The converted .txt files will be saved in their respective section folders.
+5. The converted .txt files will be saved in their respective section folders.
 
+## Contributing
+
+If you have suggestions for improvements or find any issues, feel free to open an issue or submit a pull request.
+
+## Contact
+For any inquiries, please reach out to veronicahernandezphd@gmail.com
