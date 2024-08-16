@@ -38,7 +38,7 @@ captions/
 4. Open the terminal and run the script:
 
    ```bash
-   python convert_vtt_to_txt.py
+   python vtt-to-txt-converter.py
 
 5. The converted .txt files will be saved in their respective section folders.
 
