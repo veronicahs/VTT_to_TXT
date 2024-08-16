@@ -2,7 +2,9 @@
 
 A simple Python script that converts `.vtt` (WebVTT) files into `.txt` files. The script processes `.vtt` files stored in section folders within a main `captions` folder and saves the converted `.txt` files in their respective section folders.
 
-## Project Structure
+## Folder Structure
+
+Before running the script, ensure your folder structure looks like this:
 
 <img width="92" alt="image" src="https://github.com/user-attachments/assets/b6270ca1-eb9e-4fef-b6ca-7d373385aee0">
 
@@ -11,12 +13,22 @@ captions/
          ├── section 02/ │ ├── example3.vtt │ ├── example4.vtt 
          └── section 03/ ├── example5.vtt ├── example6.vtt
 
+## After Running the Script
+
+After running the script, the folder structure will be updated to include a new folder called `captions - txt`:
+
+captions/ 
+         ├── section 01/ │ ├── file1.vtt │ ├── file2.vtt 
+         ├── section 02/ │ ├── file1.vtt │ ├── file2.vtt 
+         ├── captions - txt/ │ 
+                  ├── section 01 - txt/ │ │ ├── file1.txt │ │ ├── file2.txt │ 
+                  ├── section 02 - txt/ │ │ ├── file1.txt │ │ ├── file2.txt
 
 ## Features
 
 - Converts `.vtt` files to `.txt` format.
-- Maintains the original folder structure, saving `.txt` files in the same section folder as the original `.vtt` files.
 - Removes timestamps and any other formatting from the `.vtt` files.
+- Output: The converted text files are saved in respective section XX - txt folders within the captions - txt directory.
 
 ## Requirements
 
